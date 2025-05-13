@@ -1,0 +1,941 @@
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
+        linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
+        linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Container Styles */
+.iris-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.eye-container {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+#dual-mapper-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+#dual-mapper-container .eye-container {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+#dual-mapper-container .eye-container:first-child {
+    border-right: 1px solid #ccc;
+}
+
+/* Controls Styles */
+.controls {
+    position: absolute;
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    cursor: move;
+    width: fit-content;
+    height: fit-content;
+    
+}
+
+.top-left {
+    top: 170px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px; /* Gap between controls */
+    width: 160px; /* Set a fixed width to make the menu less wide */
+}
+
+.top-right {
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.bottom-left {
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.bottom-right {
+    bottom: 10px;
+    right: 10px;
+    width: 270px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* Eye Selection Panel Styles */
+.eye-selection-panel {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    align-items: center; /* Align items vertically */
+    gap: 5px; /* Add a small gap between buttons */
+    top: 70px; /* Position below the logo */
+    left: 5%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+}
+
+.eye-selection-panel .btn {
+    width: auto; /* Allow buttons to size based on content or flex properties */
+    flex-grow: 0; /* Don't allow buttons to grow to fill container */
+    flex-shrink: 0; /* Don't allow buttons to shrink if container is too small */
+    padding-left: 15px; /* Add some horizontal padding */
+    padding-right: 15px; /* Add some horizontal padding */
+}
+
+/* Button Styles */
+.btn {
+    padding: 6px 8px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s, transform 0.1s;
+    text-align: center;
+    width: 100%; /* Make all buttons full width within their container */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.btn:hover {
+    background-color: #3A80D2;
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Disabled button style */
+.eye-selection-panel .btn[disabled] {
+    background-color: #cccccc; /* Gray background */
+    color: #666666;          /* Darker gray text */
+    cursor: not-allowed;      /* Show 'not-allowed' cursor */
+    transform: none;          /* Remove any hover/active transforms */
+}
+
+/* Optional: Ensure hover effects are also disabled */
+.eye-selection-panel .btn[disabled]:hover {
+    background-color: #cccccc; /* Keep gray background on hover */
+    transform: none;
+}
+
+/* Top-Left Controls Specific */
+.controls.top-left .btn {
+    width: 100%; /* Ensure all buttons have the same width */
+}
+
+/* Zoom Controls */
+.zoom-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.zoom-controls .btn {
+    flex: 1;
+    width: auto; /* Override width to allow side-by-side alignment */
+}
+
+/* Rotation Buttons */
+.rotation-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.rotation-buttons .btn {
+    flex: 1;
+    width: auto; /* Override width to allow side-by-side alignment */
+}
+
+/* Direction Buttons */
+.direction-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 4px;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.direction-buttons button {
+  padding: 8px;
+  width: 100%;
+}
+/* Specific positioning for each button */
+.direction-buttons #moveUp {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.direction-buttons #moveLeft {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.direction-buttons #moveRight {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.direction-buttons #moveDown {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* Hide empty div elements */
+.direction-buttons > div:empty {
+  display: none;
+}
+
+/* Input Styles */
+.bottom-left input {
+    width: 100%;
+    margin: 4px 0;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.bottom-left input[type="range"] {
+    padding: 0;
+}
+
+/* Gallery Styles */
+.gallery {
+    margin-bottom: 15px;
+}
+
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.add-image-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.gallery-accordion {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.gallery-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.gallery-item:last-child {
+    border-bottom: none;
+}
+
+.gallery-item-header {
+    padding: 8px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gallery-item-content {
+    padding: 8px;
+    display: none;
+}
+
+.gallery-item-content.active {
+    display: block;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+
+.adjustment-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #4A90E2;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.adjustment-slider {
+  flex: 1;
+}
+
+.adjustment-value {
+  min-width: 30px;
+  text-align: right;
+  font-size: 12px;
+  color: #fff;
+}
+
+
+/* Adjustment Row Styles */
+.adjustment-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.adjustment-label {
+  min-width: 80px;
+  font-size: 12px;
+  color: #fff;
+}
+
+/* Image Adjustment Panel Styles */
+.image-adjustments {
+  background-color: #2a2a2a;
+  color: white;
+  padding: 8px; /* Reduced padding */
+  border-radius: 8px;
+}
+
+/* Adjustment Groups Container */
+.adjustments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Minimal gap between rows */
+}
+
+.histogram {
+  width: 100%;
+  height: 80px; /* Slightly reduced height */
+  background-color: #1a1a1a;
+  border-radius: 4px;
+  margin-bottom: 10px; /* Reduced margin */
+  position: relative;
+}
+
+.histogram canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.auto-levels {
+  width: 100%;
+  padding: 6px; /* Reduced padding */
+  background-color: #4A90E2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 4px; /* Reduced margin */
+  font-size: 13px;
+}
+
+.reset-button {
+    width: 100%;
+    padding: 8px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+/* Image and SVG Containers */
+#image-container, #left-image-container, #right-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#svg-container, #left-svg-container, #right-svg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Canvas Styles */
+.image-canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: auto;
+    image-rendering: auto;
+    transform-origin: center center;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #4A90E2;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1001;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 10% auto; /* Adjusted for better centering */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; /* Increased width for better visibility */
+    max-width: 500px;
+    border-radius: 8px;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    max-height: 80vh; /* Prevent modal from exceeding viewport height */
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+/* Map Options in Modal */
+.map-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.map-option {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
+    font-size: 16px;
+}
+
+.map-option:hover {
+    background-color: #f0f0f0;
+}
+
+.logo-container {
+    display: flex;
+    align-items: flex-end; /* Align items to the bottom */
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    z-index: 1001;
+}
+
+.logo {
+    margin-right: 8px; /* Add some space between the logo and the version text */
+    height: 50px; 
+    width: auto;
+}
+
+.version-text {
+    font-size: 0.75em; /* Smaller font size */
+    color: #666;       /* Slightly lighter gray */
+    font-weight: 300;   /* Lighter font weight */
+    padding-bottom: 5px; /* Adjust to align with baseline of 'IRISLAB' in logo */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .controls.bottom-right {
+        width: 90%;
+        right: 5%;
+        bottom: 10px;
+    }
+    
+    .controls.top-left, .controls.bottom-left {
+        left: 5%;
+    }
+    
+    .eye-container {
+        width: 100%;
+        height: 50%;
+    }
+    
+    #dual-mapper-container {
+        flex-direction: column;
+    }
+}
+@media (max-width: 768px) {
+    /* Adjustments for tablets and smaller screens */
+}
+
+@media (max-width: 480px) {
+    /* Adjustments for mobile devices */
+}
+
+/* Base Responsive System */
+:root {
+  --control-panel-width: 270px;
+  --control-panel-mobile-width: 90vw;
+  --button-size: 40px;
+  --button-mobile-size: 48px;
+  --spacing-unit: 8px;
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+  --panel-background: rgba(255, 255, 255, 0.95);
+  --panel-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+/* Responsive Container System */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Enhanced Control Panels */
+.controls {
+  position: absolute;
+  background-color: var(--panel-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--panel-shadow);
+  transition: transform var(--transition-speed), width var(--transition-speed);
+  z-index: 1000;
+}
+
+/* Improved Top Controls */
+.controls.top-left {
+  top: 170px;
+  left: var(--spacing-unit);
+  width: 160px;
+  transform-origin: left top;
+}
+
+.controls.top-right {
+  top: var(--spacing-unit);
+  right: var(--spacing-unit);
+  display: flex;
+  gap: var(--spacing-unit);
+}
+
+/* Enhanced Bottom Controls */
+.controls.bottom-left {
+  bottom: var(--spacing-unit);
+  left: var(--spacing-unit);
+  width: auto;
+}
+
+.controls.bottom-right {
+  bottom: var(--spacing-unit);
+  right: var(--spacing-unit);
+  width: var(--control-panel-width);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* Mobile-Optimized Buttons */
+.btn {
+  min-height: var(--button-size);
+  padding: calc(var(--spacing-unit) * 1.5);
+  border-radius: calc(var(--border-radius) / 2);
+  font-size: 14px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Enhanced Mobile Navigation */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  bottom: var(--spacing-unit);
+  right: var(--spacing-unit);
+  width: var(--button-mobile-size);
+  height: var(--button-mobile-size);
+  background: #4A90E2;
+  border-radius: 50%;
+  z-index: 1002;
+  box-shadow: var(--panel-shadow);
+}
+
+/* Responsive Dual View Container */
+#dual-mapper-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: flex-direction var(--transition-speed);
+}
+
+.eye-container {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Enhanced Image Controls */
+.image-canvas {
+  touch-action: none;
+  will-change: transform;
+}
+
+/* Responsive Gallery */
+.gallery {
+  border-radius: var(--border-radius);
+  background: #ffffff;
+}
+
+.gallery-item {
+  touch-action: manipulation;
+}
+
+/* Mobile-Optimized Adjustments Panel */
+.image-adjustments {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.adjustment-row {
+  padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+  touch-action: manipulation;
+}
+
+/* Enhanced Modal for Mobile */
+.modal-content {
+  width: min(90vw, 500px);
+  margin: 5vh auto;
+  max-height: 90vh;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+  :root {
+    --control-panel-width: 240px;
+    --button-size: 36px;
+  }
+}
+
+@media (max-width: 992px) {
+  .controls.bottom-right {
+    width: var(--control-panel-mobile-width);
+    right: 50%;
+    transform: translateX(50%);
+    bottom: calc(var(--button-mobile-size) + var(--spacing-unit) * 2);
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  .controls.top-left {
+    transform: translateX(-100%);
+  }
+  
+  .controls.top-left.active {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --button-size: 44px;
+    --spacing-unit: 12px;
+  }
+
+  #dual-mapper-container {
+    flex-direction: column;
+  }
+  
+  .eye-container {
+    height: 50%;
+    width: 100%;
+  }
+  
+  .controls.top-right {
+    right: 50%;
+    transform: translateX(50%);
+  }
+  
+  .gallery-item-header {
+    padding: calc(var(--spacing-unit) * 1.5);
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --button-mobile-size: 56px;
+  }
+  
+  .btn {
+    padding: calc(var(--spacing-unit) * 2);
+  }
+  
+  .controls.bottom-right {
+    width: 100%;
+    bottom: 0;
+    right: 0;
+    transform: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+  
+  .mobile-menu-toggle {
+    bottom: calc(var(--spacing-unit) * 2);
+  }
+  
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  .btn:hover {
+    transform: none;
+  }
+  
+  .image-canvas {
+    cursor: grab;
+  }
+  
+  .map-option {
+    padding: calc(var(--spacing-unit) * 2);
+  }
+}
+/* Mobile-Optimized Styles */
+:root {
+  --bottom-nav-height: 60px;
+  --panel-header-height: 50px;
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Bottom Navigation */
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--bottom-nav-height);
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  padding-bottom: var(--safe-area-bottom);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  min-width: 60px;
+}
+
+/* Mobile Panels */
+.mobile-panel {
+  position: fixed;
+  bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  z-index: 999;
+}
+
+.panel-header {
+  height: var(--panel-header-height);
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+/* Touch-Friendly Slider */
+.touch-slider {
+  height: 60px;
+  padding: 0 20px;
+  margin: 10px 0;
+}
+
+.touch-slider-track {
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  position: relative;
+}
+
+.touch-slider-handle {
+  width: 32px;
+  height: 32px;
+  background: #4A90E2;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  position: fixed;
+  bottom: calc(var(--bottom-nav-height) + 20px);
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: #4A90E2;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 1001;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .controls {
+      display: none; /* Hide original controls */
+  }
+
+  .mobile-panel {
+      display: block;
+  }
+
+  .bottom-navigation {
+      display: flex;
+  }
+}
+
+/* Touch-Specific Optimizations */
+@media (hover: none) {
+  .btn {
+      min-height: 44px;
+  }
+
+  .adjustment-row {
+      padding: 12px 0;
+  }
+}
+.adjustment-row {
+  display: flex;
+  align-items: center;
+  height: 20px; /* Reduced height */
+  padding: 0 2px; /* Minimal padding */
+  margin: 0; /* Remove margin */
+  gap: 4px; /* Reduced gap between elements */
+}
+
+/* Warp Controls Container Buttons */
+#warpControlsContainer .btn {
+    width: auto; /* Allow buttons to size based on content */
+    padding: 6px 10px; /* Slightly more horizontal padding for better spacing */
+    flex-grow: 0; /* Prevent buttons from growing */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+/* Top-Left Controls Specific */
+.controls.top-left .btn {
+    width: 100%; /* Ensure all buttons have the same width */
+}

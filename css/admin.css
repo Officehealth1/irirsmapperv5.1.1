@@ -1,0 +1,243 @@
+/* Admin Panel Styles */
+body {
+    background-color: #f5f5f5;
+    padding-bottom: 40px;
+}
+
+.admin-header {
+    background-color: #2c72b8;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.admin-header h1 {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+    text-align: left;
+}
+
+.admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#admin-email-display {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.admin-header .btn-secondary {
+    padding: 8px 15px;
+    flex: none;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Tabs */
+.admin-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-button {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.tab-button:hover {
+    background-color: #f9f9f9;
+}
+
+.tab-button.active {
+    border-bottom-color: #2c72b8;
+    color: #2c72b8;
+}
+
+.tab-content {
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.panel-box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+/* Password controls */
+.password-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+}
+
+/* User management */
+.user-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-box {
+    flex: 1;
+    max-width: 300px;
+}
+
+.search-box input {
+    padding: 8px 12px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-controls label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.filter-controls input[type="checkbox"] {
+    width: auto;
+}
+
+/* Users table */
+.users-table-container {
+    overflow-x: auto;
+}
+
+#users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#users-table th, 
+#users-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+#users-table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+
+#users-table th:hover {
+    background-color: #f0f0f0;
+}
+
+.sort-icon {
+    font-size: 12px;
+    margin-left: 5px;
+    opacity: 0.5;
+}
+
+th.sort-asc .sort-icon:after {
+    content: "↑";
+}
+
+th.sort-desc .sort-icon:after {
+    content: "↓";
+}
+
+#users-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Status toggle */
+.status-toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.status-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.status-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.status-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .status-slider {
+    background-color: #2c72b8;
+}
+
+input:focus + .status-slider {
+    box-shadow: 0 0 1px #2c72b8;
+}
+
+input:checked + .status-slider:before {
+    transform: translateX(26px);
+}
+
+.status-active {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.status-inactive {
+    color: #c62828;
+}
+
+#no-users-message {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-style: italic;
+} 

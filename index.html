@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iris Mapper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.3/purify.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="warpControlsContainer" class="controls warp-controls" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 100; background-color: rgba(40, 40, 40, 0.85); padding: 8px; border-radius: 5px; gap: 8px;">
+        <button class="btn" id="warpModeBtn" title="Toggle warp grid visibility">Warp</button>
+        <button class="btn" id="undoWarpBtn" title="Undo last warp change" disabled>Undo</button>
+        <button class="btn" id="redoWarpBtn" title="Redo last warp change" disabled>Redo</button>
+        <button class="btn" id="resetWarpBtn" title="Reset warp to default grid">Reset Warp</button>
+    </div>
+    <div class="app-container">
+        <div class="logo-container">
+            <img src="grids/watermark.png" alt="Logo" class="logo">
+            <span class="version-text">v5.1</span>
+        </div>
+
+        <div class="controls eye-selection-panel">
+            <button class="btn" id="leftEye">L</button>
+            <button class="btn" id="rightEye">R</button>
+            <button class="btn" id="bothEyes" disabled>L+R</button>
+        </div>
+
+        <div id="single-mapper-container" class="iris-container">
+            <div id="svg-container"></div>
+            <div id="image-container"></div>
+        </div>
+
+        <div id="dual-mapper-container" style="display: none;">
+            <div class="eye-container">
+                <div id="left-svg-container"></div>
+                <div id="left-image-container"></div>
+            </div>
+            <div class="eye-container">
+                <div id="right-svg-container"></div>
+                <div id="right-image-container"></div>
+            </div>
+        </div>
+
+<!-- Top-Left Controls -->
+<div class="controls top-left" id="menuContainer">
+    <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
+    <button class="btn" onclick="document.getElementById('imageUpload').click()">Upload Image(s)</button>
+    <button class="btn" id="selectMap">Select Map</button>
+    <button class="btn" id="customMap">Custom Map</button>
+    
+    <div class="zoom-controls">
+        <button class="btn zoom-btn" id="zoomIn">Zoom +</button>
+        <button class="btn zoom-btn" id="zoomOut">Zoom -</button>
+    </div>
+    
+    <div class="rotation-buttons">
+        <button class="btn" id="rotateLeft">↺</button>
+        <button class="btn" id="rotateRight">↻</button>
+        <button class="btn" id="toggleStretchLockBtn">🔓</button> 
+    </div>
+    
+    <div class="direction-buttons">
+        <button class="btn" id="moveUp">↑</button>
+        <button class="btn" id="moveLeft">←</button>
+        <button class="btn" id="moveRight">→</button>
+        <button class="btn" id="moveDown">↓</button>
+    </div>
+</div>
+
+        <div class="controls bottom-left">
+            <input type="range" id="opacitySlider" min="0" max="1" step="0.01" value="0.7">
+            <input type="color" id="mapColor" value="#000000">
+            <button class="btn" id="notes">Notes</button>
+            <button class="btn" id="save">Save</button>
+        </div>
+
+        <div class="controls bottom-right">
+            <div class="gallery">
+                <div class="gallery-header">
+                    <h3>Gallery</h3>
+                    <button class="add-image-btn">+</button>
+                </div>
+                <div class="gallery-accordion" id="galleryAccordion">
+                </div>
+            </div>
+
+            <div class="image-adjustments">
+                <div class="histogram">
+                    <canvas id="histogramCanvas"></canvas>
+                </div>
+                <button class="auto-levels" id="autoLevels">Auto Levels</button>
+                <button class="reset-button" id="resetAdjustments">Reset</button>
+                
+                <div class="adjustment-group">
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Exposure</span>
+                        <input type="range" class="adjustment-slider" id="exposureSlider" min="-100" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Contrast</span>
+                        <input type="range" class="adjustment-slider" id="contrastSlider" min="-100" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Saturation</span>
+                        <input type="range" class="adjustment-slider" id="saturationSlider" min="-100" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Hue</span>
+                        <input type="range" class="adjustment-slider" id="hueSlider" min="-180" max="180" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Shadows</span>
+                        <input type="range" class="adjustment-slider" id="shadowsSlider" min="-100" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Highlights</span>
+                        <input type="range" class="adjustment-slider" id="highlightsSlider" min="-100" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Temperature</span>
+                        <input type="range" class="adjustment-slider" id="temperatureSlider" min="-100" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                    <div class="adjustment-row">
+                        <span class="adjustment-label">Sharpness</span>
+                        <input type="range" class="adjustment-slider" id="sharpnessSlider" min="0" max="100" value="0">
+                        <span class="adjustment-value">0</span>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-indicator" id="progressIndicator">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Select a Map</h2>
+            <div id="mapOptions" class="map-options"></div>
+        </div>
+    </div>
+
+    <!-- Web Worker Script -->
+    <script id="workerScript" type="javascript/worker">
+        self.addEventListener('message', function(e) {
+            const imageData = e.data;
+            const histogramData = calculateHistogram(imageData);
+            self.postMessage(histogramData);
+        });
+
+        function calculateHistogram(imageData) {
+            const data = imageData.data;
+            const length = data.length;
+            const histogramR = new Uint32Array(256);
+            const histogramG = new Uint32Array(256);
+            const histogramB = new Uint32Array(256);
+
+            for (let i = 0; i < length; i += 4) {
+                histogramR[data[i]]++;
+                histogramG[data[i + 1]]++;
+                histogramB[data[i + 2]]++;
+            }
+
+            return { histogramR, histogramG, histogramB };
+        }
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
